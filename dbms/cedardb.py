@@ -33,7 +33,17 @@ class CedarDB(Postgres):
         # NB: this driver previously passed {} here, so `settings:` had no effect
         # for CedarDB; this enables e.g. the usedictfsst on/off toggle. The key is
         # passed verbatim (no case change), so write the exact env name in the YAML.
-        env = {}
+        #
+        # The official cedardb/cedardb image requires CEDAR_PASSWORD to be set
+        # before it initializes / accepts connections (defaults: user=postgres,
+        # db=postgres). Without it the server never comes up and _connect() times
+        # out after 2 min. We seed those credentials to match the postgres/postgres
+        # /postgres _connect() below; settings override them if a key collides.
+        env = {
+            "CEDAR_PASSWORD": "postgres",
+            "CEDAR_USER": "postgres",
+            "CEDAR_DB": "postgres",
+        }
         for key, value in self._settings.items():
             env[str(key)] = "1" if value is True else "0" if value is False else str(value)
         return env
