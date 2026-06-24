@@ -22,7 +22,9 @@ class CedarDB(Postgres):
         return "cedardb"
 
     @property
-    def docker_image(self) -> str:
+    def docker_image_name(self) -> str:
+        # NB: _pull_image uses docker_image_name; the original driver defined
+        # docker_image (wrong name) so it never overrode Postgres' postgres:{version}.
         return self._image or f"gitlab.db.in.tum.de:5005/schmidt/olapbench/cedardb:{self._version}"
 
     def _settings_env(self) -> dict:
