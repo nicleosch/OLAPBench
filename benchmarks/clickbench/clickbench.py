@@ -55,5 +55,5 @@ class ClickBenchDescription(benchmark.BenchmarkDescription):
         benchmark.BenchmarkDescription.add_arguments(parser)
 
     @staticmethod
-    def instantiate(base_dir: str, args: dict) -> benchmark.Benchmark:
-        return ClickBench(base_dir, args)
+    def instantiate(base_dir: str, args: dict, included_queries: list[str] = None, excluded_queries: list[str] = None) -> benchmark.Benchmark:
+        return ClickBench(base_dir, args, included_queries, excluded_queries)
