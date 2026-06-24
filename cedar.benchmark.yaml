@@ -1,0 +1,29 @@
+title: CedarDB usedictfsst on/off (clickbench + prodds)
+repetitions: 5
+warmup: 1
+timeout: 300
+fetch_result: false
+output: results/cedar_dictfsst/
+systems:
+  - title: cedar-dictfsst-on
+    dbms: cedardb
+    parameter:
+      version: "<TAG>"                  # used for result labels / the TUM image
+      image: "cedardb/cedardb:<TAG>"    # official image; omit to use the TUM registry
+    settings:
+      usedictfsst: "on"                 # CONFIRM exact env name/case + value
+  - title: cedar-dictfsst-off
+    dbms: cedardb
+    parameter:
+      version: "<TAG>"
+      image: "cedardb/cedardb:<TAG>"
+    settings:
+      usedictfsst: "off"
+benchmarks:
+  - name: clickbench
+  - name: prodds
+    scale: 100
+    str_level: 15
+    null_profile: none
+    mcv_profile: none
+    dialect: postgres
