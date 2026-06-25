@@ -1,0 +1,21 @@
+title: CedarDB usedictfsst off (Prod-DS only)
+repetitions: 5
+warmup: 1
+timeout: 300
+fetch_result: false
+output: results/cedar_dictfsst_prodds_off/
+systems:
+  - title: cedar-dictfsst-off
+    dbms: cedardb
+    parameter:
+      version: "v2026-06-23"
+      image: "cedardb/cedardb:v2026-06-23"
+    settings:
+      usedictfsst: "off"
+benchmarks:
+  - name: prodds
+    scale: 100
+    str_level: 15
+    null_profile: none
+    mcv_profile: none
+    dialect: postgres
