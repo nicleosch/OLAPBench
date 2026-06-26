@@ -13,6 +13,11 @@ output: results/umbra_encodings/
 #   OnPair = OnPair   (OnPair-compressed dictionary payload)
 # Each system uses a distinct umbra_db so the per-encoding databases don't collide.
 #
+# Memory (122 GiB box): buffer pool (buffer_size -> BUFFERSIZE) kept modest since it
+# is only a disk-page cache during load; query buffer (database.querymemorysize ->
+# DATABASE_QUERYMEMORYSIZE, default 40% RAM) raised so the FSST/OnPair dictionary
+# build over 100M rows fits. Sum 24+80 = 104 GiB, ~18 GiB headroom.
+#
 # Set the two paths once (joined onto OLAPBench's cwd; absolute is fine):
 #   umbra_src : your Umbra checkout
 #   bin       : dir containing the built `sql` binary (your encoders.sh SQL_BIN dir)
@@ -20,16 +25,16 @@ output: results/umbra_encodings/
 systems:
   - title: umbra-dict
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_dict}
-    settings: {relation.column.compression: None}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_dict, buffer_size: 24G}
+    settings: {relation.column.compression: None, database.querymemorysize: 80G}
   - title: umbra-fsst
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_fsst}
-    settings: {relation.column.compression: FSST}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_fsst, buffer_size: 24G}
+    settings: {relation.column.compression: FSST, database.querymemorysize: 80G}
   - title: umbra-onpair
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_onpair}
-    settings: {relation.column.compression: OnPair}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_onpair, buffer_size: 24G}
+    settings: {relation.column.compression: OnPair, database.querymemorysize: 80G}
 
 benchmarks:
   - name: clickbench
