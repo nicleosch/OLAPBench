@@ -122,7 +122,7 @@ class DBMS(ABC):
         self._numa_node = params["numa_node"] if "numa_node" in params else None
         self._cpuset_cpus = numa.get_cpus(self._numa_node)
         self._cpuset_mems = numa.get_mems(self._numa_node)
-        self._buffer_size = params["buffer_size"] if "buffer_size" in params and params["buffer_size"] is not None else numa.get_memory_size(self._numa_node) / 2
+        self._buffer_size = _parse_bytes(params["buffer_size"]) if "buffer_size" in params and params["buffer_size"] is not None else numa.get_memory_size(self._numa_node) / 2
         self._worker_threads = params["worker_threads"] if "worker_threads" in params and params["worker_threads"] is not None else numa.get_thread_count(self._numa_node)
         self._index = DBMS.Index.from_string(params.get("index", "primary"))
         self._version = params.get("version", "latest")
