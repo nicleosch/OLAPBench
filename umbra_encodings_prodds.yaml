@@ -13,15 +13,15 @@ systems:
   - title: umbra-dict
     dbms: umbradev
     parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_dict, buffer_size: "120G"}
-    settings: {relation.column.compression: None}
+    settings: {relation.column.compression: None, database.querymemorysize: 72G}
   - title: umbra-fsst
     dbms: umbradev
     parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_fsst, buffer_size: "120G"}
-    settings: {relation.column.compression: FSST}
+    settings: {relation.column.compression: FSST, database.querymemorysize: 72G}
   - title: umbra-onpair
     dbms: umbradev
     parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_onpair, buffer_size: "120G"}
-    settings: {relation.column.compression: OnPair}
+    settings: {relation.column.compression: OnPair, database.querymemorysize: 72G}
 
 benchmarks:
   - name: prodds
