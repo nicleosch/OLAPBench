@@ -12,16 +12,16 @@ output: results/umbra_encodings/
 systems:
   - title: umbra-dict
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_dict, buffer_size: "48G"}
-    settings: {relation.column.compression: None, database.querymemorysize: 64G}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_dict, buffer_size: "120G"}
+    settings: {relation.column.compression: None}
   - title: umbra-fsst
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_fsst, buffer_size: "48G"}
-    settings: {relation.column.compression: FSST, database.querymemorysize: 64G}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_fsst, buffer_size: "120G"}
+    settings: {relation.column.compression: FSST}
   - title: umbra-onpair
     dbms: umbradev
-    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_onpair, buffer_size: "48G"}
-    settings: {relation.column.compression: OnPair, database.querymemorysize: 64G}
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_onpair, buffer_size: "120G"}
+    settings: {relation.column.compression: OnPair}
 
 benchmarks:
   - name: prodds
