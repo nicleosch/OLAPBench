@@ -1,0 +1,41 @@
+title: Umbra dictionary encodings — Dict / FSST / OnPair (ClickBench + Prod-DS)
+repetitions: 5
+warmup: 1
+timeout: 300
+fetch_result: false
+output: results/umbra_encodings/
+
+# Three string-dictionary ENCODINGS (not block codecs), selected via the global
+# setting relation.column.compression (umbra_env -> RELATION_COLUMN_COMPRESSION,
+# read by a WITH-less CREATE TABLE at load):
+#   Dict   = None    (plain dictionary, the in-memory baseline)
+#   FSST   = FSST     (FSST-compressed dictionary payload)
+#   OnPair = OnPair   (OnPair-compressed dictionary payload)
+# Each system uses a distinct umbra_db so the per-encoding databases don't collide.
+#
+# Set the two paths once (joined onto OLAPBench's cwd; absolute is fine):
+#   umbra_src : your Umbra checkout
+#   bin       : dir containing the built `sql` binary (your encoders.sh SQL_BIN dir)
+
+systems:
+  - title: umbra-dict
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_dict}
+    settings: {relation.column.compression: None}
+  - title: umbra-fsst
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_fsst}
+    settings: {relation.column.compression: FSST}
+  - title: umbra-onpair
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/build/release/bin, umbra_db: umbra_onpair}
+    settings: {relation.column.compression: OnPair}
+
+benchmarks:
+  - name: clickbench
+  - name: prodds
+    scale: 100
+    str_level: 15
+    null_profile: none
+    mcv_profile: none
+    dialect: postgres
