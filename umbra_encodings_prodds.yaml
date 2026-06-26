@@ -1,0 +1,32 @@
+title: Umbra dictionary encodings — Dict / FSST / OnPair (Prod-DS only)
+repetitions: 5
+warmup: 1
+timeout: 300
+fetch_result: false
+output: results/umbra_encodings/
+
+# Prod-DS-only variant of umbra_encodings.yaml (ClickBench already done).
+# Same 3 encodings + memory config; only the prodds benchmark runs, so the
+# expensive ClickBench loads are skipped.
+
+systems:
+  - title: umbra-dict
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_dict, buffer_size: "48G"}
+    settings: {relation.column.compression: None, database.querymemorysize: 64G}
+  - title: umbra-fsst
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_fsst, buffer_size: "48G"}
+    settings: {relation.column.compression: FSST, database.querymemorysize: 64G}
+  - title: umbra-onpair
+    dbms: umbradev
+    parameter: {version: HEAD, umbra_src: /home/schmitt/git/umbra, bin: /home/schmitt/git/umbra/cmake-build-relwithdebinfo, umbra_db: umbra_onpair, buffer_size: "48G"}
+    settings: {relation.column.compression: OnPair, database.querymemorysize: 64G}
+
+benchmarks:
+  - name: prodds
+    scale: 100
+    str_level: 15
+    null_profile: none
+    mcv_profile: none
+    dialect: postgres
